@@ -2,23 +2,29 @@
 require_once 'kontak.php';
 require_once 'contactManager.php';
 
+// Membuat objek Database
 $database = new Database();
 
-$contactManager = new kontakLogic($database);
+// Membuat objek ContactManager dengan menggunakan objek Database
+$contactManager = new ContactManager($database);
 
+// Memproses form pengiriman data kontak
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phoneNumber = $_POST['phone'];
 
+    // Validasi input
     if (!empty($name) && filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($phoneNumber)) {
-        $newContact = new Contact(null, $name, $email, $phoneNumber);
+        // Menambahkan kontak baru
+        $newContact = new Contact(null, $name, $email, $phoneNumber); // id dapat diabaikan karena akan di-generate otomatis
         $contactManager->addContact($newContact);
     } else {
         echo "Invalid input. Please provide valid data.";
     }
 }
 
+// Mengambil daftar kontak
 $contacts = $contactManager->getContacts();
 ?>
 

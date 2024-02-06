@@ -4,7 +4,7 @@ require_once 'contactManager.php';
 
 $database = new Database();
 
-$contactManager = new kontakLogic($database);
+$contactManager = new ContactManager($database);
 
 
 if (isset($_GET['id'])) {
@@ -18,13 +18,14 @@ if (isset($_GET['id'])) {
         if (!empty($name) && filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($phoneNumber)) {
             $updatedContact = new Contact($contactId, $name, $email, $phoneNumber);
             $contactManager->updateContact($updatedContact);
-            header('Location: index.php'); 
+            header('Location: index.php'); // Redirect ke halaman utama setelah update
             exit();
         } else {
             echo "Invalid input. Please provide valid data.";
         }
     }
 
+    // Mengambil data kontak berdasarkan ID
     $contact = $contactManager->getContactById($contactId);
 
     if (!$contact) {
