@@ -2,29 +2,23 @@
 require_once 'kontak.php';
 require_once 'contactManager.php';
 
-// Membuat objek Database
 $database = new Database();
 
-// Membuat objek ContactManager dengan menggunakan objek Database
-$contactManager = new ContactManager($database);
+$contactManager = new kontakLogic($database);
 
-// Memproses form pengiriman data kontak
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phoneNumber = $_POST['phone'];
 
-    // Validasi input
     if (!empty($name) && filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($phoneNumber)) {
-        // Menambahkan kontak baru
-        $newContact = new Contact(null, $name, $email, $phoneNumber); // id dapat diabaikan karena akan di-generate otomatis
+        $newContact = new Contact(null, $name, $email, $phoneNumber);
         $contactManager->addContact($newContact);
     } else {
         echo "Invalid input. Please provide valid data.";
     }
 }
 
-// Mengambil daftar kontak
 $contacts = $contactManager->getContacts();
 ?>
 
@@ -44,11 +38,14 @@ $contacts = $contactManager->getContacts();
             margin-top: 20px;
         }
 
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid #ddd;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             text-align: left;
         }
@@ -60,10 +57,7 @@ $contacts = $contactManager->getContacts();
         .edit-btn,
         .delete-btn {
             display: inline-block;
-            padding: 5px 10px;
             margin: 5px;
-            text-decoration: none;
-            border: 1px solid #ccc;
             border-radius: 4px;
             cursor: pointer;
         }
@@ -72,8 +66,8 @@ $contacts = $contactManager->getContacts();
 
 <body>
     <div class="container mt-5">
-        <h2>Contact Manager</h2>
 
+        <h2 class="mb-4">Contact Manager</h2>
         <!-- Form untuk menambah kontak baru -->
         <form method="POST" action="">
             <div class="mb-3">
@@ -95,7 +89,7 @@ $contacts = $contactManager->getContacts();
         </form>
 
         <!-- Daftar Kontak -->
-        <table class="table">
+        <table class="table mt-4">
             <thead>
                 <tr>
                     <th>Name</th>

@@ -1,6 +1,6 @@
 <?php
 
-class ContactManager
+class kontakLogic
 {
     private $database;
 
@@ -75,6 +75,7 @@ class ContactManager
 
         return $contacts;
     }
+    
 }
 
 ?>
